@@ -1,0 +1,50 @@
+// ==UserScript==
+// @name         Reddit: Redirect to new user posts
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  When opening a reddit user's profile, automatically redirects to their new posts.
+// @author       https://github.com/jeff-romero
+// @match        https://old.reddit.com/user/*
+// @match        http://old.reddit.com/user/*
+// @match        https://reddit.com/user/*
+// @match        http://reddit.com/user/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+// console.log("test");
+let currentURL = document.location.href;
+// console.log(currentURL);
+
+// Construct new URL then replace the old URL
+function replaceURL() {
+    if (!currentURL.includes("/submitted/?sort=new")) {
+        const oldURL = currentURL;
+        const splitString = oldURL.split("/");
+        const redditUser = splitString[4];
+        // console.log("reddit user: " + redditUser);
+        var newURL = "https://old.reddit.com/user/";
+        newURL += redditUser;
+        newURL += "/submitted/?sort=new";
+        // console.log("New URL: " + newURL);
+        window.location.replace(newURL);
+    }
+}
+
+const observer = new MutationObserver(mutations => {
+    mutations.forEach(() => {
+        if (currentURL !== document.location.href) { // Update currentURL
+            currentURL = document.location.href
+            // console.log(currentURL);
+        }
+        replaceURL();
+    });
+});
+
+const target = document.body;
+const config = { childList: true, subtree: true };
+observer.observe(target, config);
+
+})();
