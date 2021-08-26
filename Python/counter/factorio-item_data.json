@@ -1,0 +1,473 @@
+{
+    "Logistics": {
+        "Wooden Chest": {
+            "Crafting time": 0.5,
+            "Recipe": {"Wood": 2},
+            "Output": 1,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Iron Chest": {
+            "Crafting time": 0.5,
+            "Recipe": {"Iron plate": 8},
+            "Output": 1,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Steel Chest": {
+            "Crafting time": 0.5,
+            "Recipe": {"Steel plate": 8},
+            "Output": 1,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Storage Tank": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Transport belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Fast transport belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Express transport belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Underground belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Fast underground belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Express underground belt": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Splitter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Fast splitter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Express splitter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Burner inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Long-handed inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Fast inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Filter inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Stack inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Stack filter inserter": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Small electric pole": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Medium electric pole": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Big electric pole": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Substation": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Pipe": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Pipe to ground": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Pump": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Rail": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Train stop": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Rail signal": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Rail chain signal": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Locomotive": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Cargo wagon": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Fluid wagon": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Artillery wagon": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Car": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Tank": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Spidertron": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Spidertron remote": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Logistic robot": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Construction robot": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Active provider chest": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Passive provider chest": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Storage chest": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Buffer chest": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Requester chest": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Roboport": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Lamp": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Red wire": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Green wire": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Arithmetic combinator": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Decider combinator": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Constant combinator": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Power switch": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Programmable speaker": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Stone brick": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Concrete": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Hazard concrete": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Refined concrete": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Refined hazard concrete": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Landfill": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        },
+        "Cliff explosive": {
+            "Crafting time": 0.0,
+            "Recipe": {},
+            "Output": 0,
+            "Produced by": []
+        }
+    },
+    "Production": {
+
+    },
+    "Intermediate Products": {
+        "Crude oil": null,
+        "Heavy oil": null,
+        "Light oil": null,
+        "Lubricant": null,
+        "Petroleum gas": null,
+        "Sulfuric acid": null,
+        "Water": null,
+        "Steam": null,
+        "Wood": null,
+        "Coal": null,
+        "Stone": null,
+        "Iron ore": null,
+        "Copper ore": null,
+        "Uranium ore": null,
+        "Raw fish": null,
+        "Iron plate": null,
+        "Copper plate": null,
+        "Solid fuel": null,
+        "Steel plate": {
+            "Crafting time": 16.0,
+            "Recipe": {"Iron plate": 5},
+            "Output": 1,
+            "Produced by": ["Stone furnace", "Steel furnace", "Electric furnace"]
+        },
+        "Plastic bar": null,
+        "Sulfur": null,
+        "Battery": null,
+        "Explosives": null,
+        "Uranium processing": null,
+        "Crude oil barrel": null,
+        "Heavy oil barrel": null,
+        "Light oil barrel": null,
+        "Lubricant barrel": null,
+        "Petroleum gas barrel": null,
+        "Sulfuric acid barrel": null,
+        "Water barrel": null,
+        "Copper cable": {
+            "Crafting time": 0.5,
+            "Recipe": {"Copper plate": 1},
+            "Output": 2,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Iron stick": {
+            "Crafting time": 0.5,
+            "Recipe": {"Iron plate": 1},
+            "Output": 2,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Iron gear wheel": {
+            "Crafting time": 0.5,
+            "Recipe": {"Iron plate": 2},
+            "Output": 1,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Empty barrel": {
+            "Crafting time": 1,
+            "Recipe": {"Steel plate": 1},
+            "Output": 2,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Electronic circuit": null,
+        "Advanced circuit": null,
+        "Processing unit": null,
+        "Engine unit": null,
+        "Electric engine unit": null,
+        "Flying robot frame": null,
+        "Rocket part": null,
+        "Rocket control unit": null,
+        "Low density structure": {
+            "Crafting time": 20,
+            "Recipe": {"Copper plate": 20, "Plastic bar": 5, "Steel plate": 2},
+            "Output": 1,
+            "Produced by": ["Assembling machine 1", "Assembling machine 2", "Assembling machine 3", "Manual crafting"]
+        },
+        "Rocket fuel": null,
+        "Nuclear fuel": null,
+        "Uranium-235": null,
+        "Uranium-238": null,
+        "Uranium fuel cell": null,
+        "Nuclear fuel reprocessing": null,
+        "Kovarex enrichment process": null,
+        "Used up uranium fuel cell": null,
+        "Automation science pack": null,
+        "Logistic science pack": null,
+        "Military science pack": null,
+        "Chemical science pack": null,
+        "Production science pack": null,
+        "Utility science pack": null,
+        "Space science pack": null
+    },
+    "Combat": {
+
+    }
+}
