@@ -90,7 +90,7 @@ def del_button(label_to_del=None):
         __labels.remove(label_to_del)
 
 
-def add_new_recipe():
+def add_new_recipe(output=''):
     global __labels
     new_label_frame = tk.Frame(recipes_frame)
     new_label_frame.pack(fill='x')
@@ -98,7 +98,7 @@ def add_new_recipe():
 
     new_label = __labels[len(__labels) - 1]
 
-    recipe = tk.Label(new_label, text="New recipe " + genstring.generate_string())
+    recipe = tk.Label(new_label, text="New recipe " + genstring.generate_string(), justify=tk.LEFT)
     recipe.pack(side=tk.LEFT, fill='y', expand=True)
 
     delete_recipe = tk.Button(new_label, text='X', bg='red', fg='black', command=lambda:del_button(new_label))
@@ -167,9 +167,53 @@ sub_drop_down_menu.pack(side=tk.RIGHT)
 vertical_window_separator = Separator(root, orient='vertical')
 vertical_window_separator.pack(fill='y')
 
+calculator_frame = tk.Frame(main_buttons_frame, bg='grey')
+calculator_frame.pack()
 
+# for i in range(9, -1, -1):
+#     num = tk.Button(calculator_frame, text=str(i), command=print(str(i)), bg='black', fg='white')
+#     num.grid()
 
-
+calculator_display = tk.Label(calculator_frame, text='0', bg='black', fg='white', width=86, height=4)
+calculator_display.grid(row=0, column=0, columnspan=4)
+clear = tk.Button(calculator_frame, text='C', command=None, bg='black', fg='white', width=20, height=4)
+clear.grid(row=1, column=0)
+flip_sign = tk.Button(calculator_frame, text='+/-', command=None, bg='black', fg='white', width=20, height=4)
+flip_sign.grid(row=1, column=1)
+percent = tk.Button(calculator_frame, text='%', command=None, bg='black', fg='white', width=20, height=4)
+percent.grid(row=1, column=2)
+divide = tk.Button(calculator_frame, text='/', command=None, bg='black', fg='white', width=20, height=4)
+divide.grid(row=1, column=3)
+seven = tk.Button(calculator_frame, text='7', command=None, bg='black', fg='white', width=20, height=4)
+seven.grid(row=2, column=0)
+eight = tk.Button(calculator_frame, text='8', command=None, bg='black', fg='white', width=20, height=4)
+eight.grid(row=2, column=1)
+nine = tk.Button(calculator_frame, text='9', command=None, bg='black', fg='white', width=20, height=4)
+nine.grid(row=2, column=2)
+multiply = tk.Button(calculator_frame, text='X', command=None, bg='black', fg='white', width=20, height=4)
+multiply.grid(row=2, column=3)
+four = tk.Button(calculator_frame, text='4', command=None, bg='black', fg='white', width=20, height=4)
+four.grid(row=3, column=0)
+five = tk.Button(calculator_frame, text='5', command=None, bg='black', fg='white', width=20, height=4)
+five.grid(row=3, column=1)
+six = tk.Button(calculator_frame, text='6', command=None, bg='black', fg='white', width=20, height=4)
+six.grid(row=3, column=2)
+minus = tk.Button(calculator_frame, text='-', command=None, bg='black', fg='white', width=20, height=4)
+minus.grid(row=3, column=3)
+one = tk.Button(calculator_frame, text='1', command=None, bg='black', fg='white', width=20, height=4)
+one.grid(row=4, column=0)
+two = tk.Button(calculator_frame, text='2', command=None, bg='black', fg='white', width=20, height=4)
+two.grid(row=4, column=1)
+three = tk.Button(calculator_frame, text='3', command=None, bg='black', fg='white', width=20, height=4)
+three.grid(row=4, column=2)
+plus = tk.Button(calculator_frame, text='+', command=None, bg='black', fg='white', width=20, height=4)
+plus.grid(row=4, column=3)
+zero = tk.Button(calculator_frame, text='0', command=None, bg='black', fg='white', width=42, height=4)
+zero.grid(row=5, column=0, columnspan=2)
+point = tk.Button(calculator_frame, text='.', command=None, bg='black', fg='white', width=20, height=4)
+point.grid(row=5, column=2)
+equal = tk.Button(calculator_frame, text='=', command=None, bg='black', fg='white', width=20, height=4)
+equal.grid(row=5, column=3)
 
 add_new_recipe_button = tk.Button(recipes_frame, text='Add new recipe', command=add_new_recipe)
 add_new_recipe_button.pack(side=tk.TOP)
