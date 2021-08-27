@@ -5,6 +5,8 @@ from random import randint
 
 LEN_DEFAULT = 10
 ALPHA = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
+LOWER_ALPHA = 'qwertyuiopasdfghjklzxcvbnm'
+UPPER_ALPHA = 'QWERTYUIOPASDFGHJKLZXCVBNM'
 NUM = '1234567890'
 SPECIAL = '!@#$%^&*()'
 __usable_chars = ALPHA + NUM + SPECIAL
