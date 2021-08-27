@@ -9,26 +9,25 @@ from os.path import exists
 import genstring
 genstring.declare_usable_characters('ALPHA', 'NUM')
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 240
-screen_size = str(SCREEN_WIDTH) + "x" + str(SCREEN_HEIGHT)
-root = tk.Tk()
-root.title('Counter Tool')
-root.geometry(screen_size)
-
-
-main_buttons_frame = tk.Frame(root, bg='grey')
-main_buttons_frame.pack(side=tk.LEFT, fill='both', expand=True)
-
-recipes_frame = tk.Frame(root, bg='grey')
-recipes_frame.pack(side=tk.RIGHT, fill='both', expand=True)
-
 # GLOBALS
 __current_count = 0
 __labels = [] # Will hold recipes
 __ADD_COLOR = '#81d41a'
 __SUB_COLOR = '#ff0000'
 __MAX_VAL = 100 # Maximum value to add/subtract
+__SCREEN_WIDTH = 720
+__SCREEN_HEIGHT = 240
+
+screen_size = str(__SCREEN_WIDTH) + "x" + str(__SCREEN_HEIGHT)
+root = tk.Tk()
+root.title('Counter Tool')
+root.geometry(screen_size)
+
+main_buttons_frame = tk.Frame(root, bg='grey')
+main_buttons_frame.pack(side=tk.LEFT, fill='both', expand=True)
+
+recipes_frame = tk.Frame(root, bg='grey')
+recipes_frame.pack(side=tk.RIGHT, fill='both', expand=True)
 
 
 def inc(label=None, num_to_inc=1):
@@ -152,18 +151,25 @@ add_drop_down_menu.pack(side=tk.RIGHT)
 subtract_frame = tk.Frame(main_buttons_frame)
 subtract_frame.pack(fill='x', expand=True, pady=(5, 0))
 
-sub_drop_down_menu = Combobox(add_frame, values=__number_options)
+sub_drop_down_menu = Combobox(subtract_frame, values=__number_options)
 sub_drop_down_menu.set("Select number")
-sub_selected_value = tk.Button(add_frame, text='Sub', command=lambda:dec(count_label, int(sub_drop_down_menu.get())), bg=__SUB_COLOR, fg='black')
+sub_selected_value = tk.Button(subtract_frame, text='Sub', command=lambda:dec(count_label, int(sub_drop_down_menu.get())), bg=__SUB_COLOR, fg='black')
 
-sub_entry = tk.Entry(add_frame, width=10)
-sub_entered_value = tk.Button(add_frame, text='Sub', command=lambda:dec(count_label, int(sub_entry.get())), bg=__SUB_COLOR, fg='black')
+sub_entry = tk.Entry(subtract_frame, width=10)
+sub_entered_value = tk.Button(subtract_frame, text='Sub', command=lambda:dec(count_label, int(sub_entry.get())), bg=__SUB_COLOR, fg='black')
 
 sub_entry.pack(side=tk.LEFT)
 sub_entered_value.pack(side=tk.LEFT)
 
 sub_selected_value.pack(side=tk.RIGHT)
 sub_drop_down_menu.pack(side=tk.RIGHT)
+
+vertical_window_separator = Separator(root, orient='vertical')
+vertical_window_separator.pack(fill='y')
+
+
+
+
 
 add_new_recipe_button = tk.Button(recipes_frame, text='Add new recipe', command=add_new_recipe)
 add_new_recipe_button.pack(side=tk.TOP)
