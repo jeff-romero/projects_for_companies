@@ -7,6 +7,7 @@ from tkinter.ttk import Combobox, Separator
 import json
 from os.path import exists
 import genstring
+from sys import maxsize
 genstring.declare_usable_characters('ALPHA', 'NUM')
 
 # GLOBALS
@@ -15,8 +16,8 @@ __labels = [] # Will hold recipes
 __ADD_COLOR = '#81d41a'
 __SUB_COLOR = '#ff0000'
 __MAX_VAL = 100 # Maximum value to add/subtract
-__SCREEN_WIDTH = 720
-__SCREEN_HEIGHT = 240
+__SCREEN_WIDTH = 1200
+__SCREEN_HEIGHT = 600
 
 screen_size = str(__SCREEN_WIDTH) + "x" + str(__SCREEN_HEIGHT)
 root = tk.Tk()
@@ -24,7 +25,7 @@ root.title('Counter Tool')
 root.geometry(screen_size)
 
 main_buttons_frame = tk.Frame(root, bg='grey')
-main_buttons_frame.pack(side=tk.LEFT, fill='both', expand=True)
+main_buttons_frame.pack(side=tk.LEFT, fill='both')
 
 recipes_frame = tk.Frame(root, bg='grey')
 recipes_frame.pack(side=tk.RIGHT, fill='both', expand=True)
@@ -116,6 +117,75 @@ load_data_file(data_file)
 count_label = tk.Label(main_buttons_frame, text=__current_count, height=3, bg='black', fg='white', justify=tk.CENTER, font=75)
 count_label.pack(fill='x', expand=True, pady=(0,5))
 
+
+__calculator_queue = []
+
+
+def add(x=0, y=0):
+    return x + y
+
+
+def sub(x=0, y=0):
+    return x - y
+
+
+def multiply(x=0, y=0):
+    return x * y
+
+
+def divide(x=1, y=1):
+    return x / y
+
+
+calculator_frame = tk.Frame(main_buttons_frame, bg='grey')
+calculator_frame.pack()
+
+calc_string = tk.StringVar()
+calculator_display = tk.Label(calculator_frame, textvariable=calc_string, bg='black', fg='white', width=86, height=4, anchor=tk.E)
+calc_string.set('0')
+calculator_display.grid(row=0, column=0, columnspan=4)
+
+
+def update_calculator_display(calc_display=None, char=''):
+    if calc_display:
+        curr_display = calc_string.get()
+        if curr_display == '0':
+            display = char
+        else:
+            display = calc_string.get() + char
+        calc_string.set(display)
+
+
+def calculate_expression():
+    num = 0
+    if not num > maxsize or num < -maxsize:
+        pass
+    pass
+
+
+def clear_calculator_display(calc_display=None):
+    if calc_display:
+        global __calculator_queue
+        __calculator_queue = []
+        calc_string.set('0')
+
+
+def calculator_command(cmd=''):
+    print(cmd)
+    if cmd == 'C':
+        clear_calculator_display(calculator_display)
+        return True
+    elif cmd == '=':
+        calculate_expression()
+        return True
+    elif cmd != '+/-' or cmd != '%' or cmd != '/' or cmd != 'X' or cmd != '-' or cmd != '+' or cmd != '.':
+        if not cmd.isnumeric():
+            print('command not recognized')
+            return False
+    update_calculator_display(calculator_display, cmd)
+    return True
+
+
 #
 # ADD
 #
@@ -167,18 +237,14 @@ sub_drop_down_menu.pack(side=tk.RIGHT)
 vertical_window_separator = Separator(root, orient='vertical')
 vertical_window_separator.pack(fill='y')
 
-calculator_frame = tk.Frame(main_buttons_frame, bg='grey')
-calculator_frame.pack()
 
 # for i in range(9, -1, -1):
 #     num = tk.Button(calculator_frame, text=str(i), command=print(str(i)), bg='black', fg='white')
 #     num.grid()
 
-calculator_display = tk.Label(calculator_frame, text='0', bg='black', fg='white', width=86, height=4)
-calculator_display.grid(row=0, column=0, columnspan=4)
-clear = tk.Button(calculator_frame, text='C', command=None, bg='black', fg='white', width=20, height=4)
+clear = tk.Button(calculator_frame, text='C', command=lambda:calculator_command('C'), bg='black', fg='white', width=20, height=4)
 clear.grid(row=1, column=0)
-flip_sign = tk.Button(calculator_frame, text='+/-', command=None, bg='black', fg='white', width=20, height=4)
+flip_sign = tk.Button(calculator_frame, text='+/-', command=lambda:calculator_command('+/-'), bg='black', fg='white', width=20, height=4)
 flip_sign.grid(row=1, column=1)
 percent = tk.Button(calculator_frame, text='%', command=None, bg='black', fg='white', width=20, height=4)
 percent.grid(row=1, column=2)
@@ -200,19 +266,19 @@ six = tk.Button(calculator_frame, text='6', command=None, bg='black', fg='white'
 six.grid(row=3, column=2)
 minus = tk.Button(calculator_frame, text='-', command=None, bg='black', fg='white', width=20, height=4)
 minus.grid(row=3, column=3)
-one = tk.Button(calculator_frame, text='1', command=None, bg='black', fg='white', width=20, height=4)
+one = tk.Button(calculator_frame, text='1', command=lambda:calculator_command('1'), bg='black', fg='white', width=20, height=4)
 one.grid(row=4, column=0)
-two = tk.Button(calculator_frame, text='2', command=None, bg='black', fg='white', width=20, height=4)
+two = tk.Button(calculator_frame, text='2', command=lambda:calculator_command('2'), bg='black', fg='white', width=20, height=4)
 two.grid(row=4, column=1)
-three = tk.Button(calculator_frame, text='3', command=None, bg='black', fg='white', width=20, height=4)
+three = tk.Button(calculator_frame, text='3', command=lambda:calculator_command('3'), bg='black', fg='white', width=20, height=4)
 three.grid(row=4, column=2)
-plus = tk.Button(calculator_frame, text='+', command=None, bg='black', fg='white', width=20, height=4)
+plus = tk.Button(calculator_frame, text='+', command=lambda:calculator_command('+'), bg='black', fg='white', width=20, height=4)
 plus.grid(row=4, column=3)
-zero = tk.Button(calculator_frame, text='0', command=None, bg='black', fg='white', width=42, height=4)
+zero = tk.Button(calculator_frame, text='0', command=lambda:calculator_command('0'), bg='black', fg='white', width=42, height=4)
 zero.grid(row=5, column=0, columnspan=2)
-point = tk.Button(calculator_frame, text='.', command=None, bg='black', fg='white', width=20, height=4)
+point = tk.Button(calculator_frame, text='.', command=lambda:calculator_command('.'), bg='black', fg='white', width=20, height=4)
 point.grid(row=5, column=2)
-equal = tk.Button(calculator_frame, text='=', command=None, bg='black', fg='white', width=20, height=4)
+equal = tk.Button(calculator_frame, text='=', command=lambda:calculator_command('='), bg='black', fg='white', width=20, height=4)
 equal.grid(row=5, column=3)
 
 add_new_recipe_button = tk.Button(recipes_frame, text='Add new recipe', command=add_new_recipe)
