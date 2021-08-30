@@ -119,6 +119,7 @@ count_label.pack(fill='x', expand=True, pady=(0,5))
 
 
 __calculator_queue = []
+__current_num_string = ''
 
 
 def add(x=0, y=0):
@@ -164,16 +165,35 @@ def update_calculator_display(calc_display=None, char=''):
             curr_display = char
         elif (not curr_display.__contains__('.') and char == '.') or char != '.':
             curr_display += char
+        # TODO: Make use of __current_num_string
+        __calculator_queue.append(char)
+        print(__calculator_queue)
         calc_string.set(curr_display)
         return True
     return False
 
 
-def calculate_expression():
-    num = 0
-    if not num > maxsize or num < -maxsize:
-        pass
-    pass
+def evaluate_expression():
+    global __calculator_queue
+    if len(__calculator_queue) > 2:
+        left_operand, operator, right_operand = int(__calculator_queue.pop(0)), __calculator_queue.pop(0), int(__calculator_queue.pop(0))
+        print(str(left_operand) + ' ' + operator + ' ' + str(right_operand))
+        if (not left_operand > maxsize or not left_operand < -maxsize) and (not right_operand > maxsize or not right_operand < -maxsize):
+            if operator == '+':
+                result = str(add(left_operand, right_operand))
+                __calculator_queue.append(result)
+            elif operator == '-':
+                result = str(sub(left_operand, right_operand))
+                __calculator_queue.append(result)
+            elif operator == '/':
+                result = str(divide(left_operand, right_operand))
+                __calculator_queue.append(result)
+            elif operator == '*':
+                result = str(multiply(left_operand, right_operand))
+                __calculator_queue.append(result)
+            print(__calculator_queue)
+            return True
+    return False
 
 
 def calculator_command(cmd=''):
@@ -181,8 +201,12 @@ def calculator_command(cmd=''):
     if cmd.isnumeric() or cmd == 'C' or cmd == '.' or cmd == '/' or cmd == '*' or cmd == '-' or cmd == '+':
         update_calculator_display(calculator_display, cmd)
         return True
-    elif cmd == '+/-' or cmd == '%' or cmd == '=':
+    elif cmd == '+/-' or cmd == '%':
         # TODO: this
+        return True
+    elif cmd == '=':
+        evaluate_expression()
+        update_calculator_display(calculator_display, __calculator_queue[0])
         return True
     print('command ' + cmd + ' not recognized')
     return False
