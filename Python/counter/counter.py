@@ -146,14 +146,27 @@ calc_string.set('0')
 calculator_display.grid(row=0, column=0, columnspan=4)
 
 
+def clear_calculator_display(calc_display=None):
+    if calc_display:
+        global __calculator_queue
+        __calculator_queue = []
+        calc_string.set('0')
+
+
+# This will only update the display directly and not evaluate any expressions, assuming the parser function calculator_command() has done its job.
 def update_calculator_display(calc_display=None, char=''):
     if calc_display:
         curr_display = calc_string.get()
-        if curr_display == '0':
-            display = char
-        else:
-            display = calc_string.get() + char
-        calc_string.set(display)
+        if char == 'C':
+            clear_calculator_display(calc_display)
+            return True
+        elif curr_display == '0' and char != '.': # Avoids unnecessary zero padding such as 01, 02, ..., 09999
+            curr_display = char
+        elif (not curr_display.__contains__('.') and char == '.') or char != '.':
+            curr_display += char
+        calc_string.set(curr_display)
+        return True
+    return False
 
 
 def calculate_expression():
@@ -163,27 +176,16 @@ def calculate_expression():
     pass
 
 
-def clear_calculator_display(calc_display=None):
-    if calc_display:
-        global __calculator_queue
-        __calculator_queue = []
-        calc_string.set('0')
-
-
 def calculator_command(cmd=''):
     print(cmd)
-    if cmd == 'C':
-        clear_calculator_display(calculator_display)
+    if cmd.isnumeric() or cmd == 'C' or cmd == '.' or cmd == '/' or cmd == '*' or cmd == '-' or cmd == '+':
+        update_calculator_display(calculator_display, cmd)
         return True
-    elif cmd == '=':
-        calculate_expression()
+    elif cmd == '+/-' or cmd == '%' or cmd == '=':
+        # TODO: this
         return True
-    elif cmd != '+/-' or cmd != '%' or cmd != '/' or cmd != 'X' or cmd != '-' or cmd != '+' or cmd != '.':
-        if not cmd.isnumeric():
-            print('command not recognized')
-            return False
-    update_calculator_display(calculator_display, cmd)
-    return True
+    print('command ' + cmd + ' not recognized')
+    return False
 
 
 #
@@ -246,25 +248,25 @@ clear = tk.Button(calculator_frame, text='C', command=lambda:calculator_command(
 clear.grid(row=1, column=0)
 flip_sign = tk.Button(calculator_frame, text='+/-', command=lambda:calculator_command('+/-'), bg='black', fg='white', width=20, height=4)
 flip_sign.grid(row=1, column=1)
-percent = tk.Button(calculator_frame, text='%', command=None, bg='black', fg='white', width=20, height=4)
+percent = tk.Button(calculator_frame, text='%', command=lambda:calculator_command('%'), bg='black', fg='white', width=20, height=4)
 percent.grid(row=1, column=2)
-divide = tk.Button(calculator_frame, text='/', command=None, bg='black', fg='white', width=20, height=4)
+divide = tk.Button(calculator_frame, text='/', command=lambda:calculator_command('/'), bg='black', fg='white', width=20, height=4)
 divide.grid(row=1, column=3)
-seven = tk.Button(calculator_frame, text='7', command=None, bg='black', fg='white', width=20, height=4)
+seven = tk.Button(calculator_frame, text='7', command=lambda:calculator_command('7'), bg='black', fg='white', width=20, height=4)
 seven.grid(row=2, column=0)
-eight = tk.Button(calculator_frame, text='8', command=None, bg='black', fg='white', width=20, height=4)
+eight = tk.Button(calculator_frame, text='8', command=lambda:calculator_command('8'), bg='black', fg='white', width=20, height=4)
 eight.grid(row=2, column=1)
-nine = tk.Button(calculator_frame, text='9', command=None, bg='black', fg='white', width=20, height=4)
+nine = tk.Button(calculator_frame, text='9', command=lambda:calculator_command('9'), bg='black', fg='white', width=20, height=4)
 nine.grid(row=2, column=2)
-multiply = tk.Button(calculator_frame, text='X', command=None, bg='black', fg='white', width=20, height=4)
+multiply = tk.Button(calculator_frame, text='*', command=lambda:calculator_command('*'), bg='black', fg='white', width=20, height=4)
 multiply.grid(row=2, column=3)
-four = tk.Button(calculator_frame, text='4', command=None, bg='black', fg='white', width=20, height=4)
+four = tk.Button(calculator_frame, text='4', command=lambda:calculator_command('4'), bg='black', fg='white', width=20, height=4)
 four.grid(row=3, column=0)
-five = tk.Button(calculator_frame, text='5', command=None, bg='black', fg='white', width=20, height=4)
+five = tk.Button(calculator_frame, text='5', command=lambda:calculator_command('5'), bg='black', fg='white', width=20, height=4)
 five.grid(row=3, column=1)
-six = tk.Button(calculator_frame, text='6', command=None, bg='black', fg='white', width=20, height=4)
+six = tk.Button(calculator_frame, text='6', command=lambda:calculator_command('6'), bg='black', fg='white', width=20, height=4)
 six.grid(row=3, column=2)
-minus = tk.Button(calculator_frame, text='-', command=None, bg='black', fg='white', width=20, height=4)
+minus = tk.Button(calculator_frame, text='-', command=lambda:calculator_command('-'), bg='black', fg='white', width=20, height=4)
 minus.grid(row=3, column=3)
 one = tk.Button(calculator_frame, text='1', command=lambda:calculator_command('1'), bg='black', fg='white', width=20, height=4)
 one.grid(row=4, column=0)
