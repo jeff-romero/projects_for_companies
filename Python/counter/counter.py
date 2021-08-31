@@ -140,18 +140,19 @@ def divide(x=1, y=1):
 
 calculator_frame = tk.Frame(main_buttons_frame, bg='grey')
 calculator_frame.pack()
-
 calc_string = tk.StringVar()
 calculator_display = tk.Label(calculator_frame, textvariable=calc_string, bg='black', fg='white', width=86, height=4, anchor=tk.E)
 calc_string.set('0')
 calculator_display.grid(row=0, column=0, columnspan=4)
 
 
-def clear_calculator_display(calc_display=None):
-    if calc_display:
-        global __calculator_queue
+def clear_calculator_display(display=None):
+    global __calculator_queue
+    if display and len(__calculator_queue) > 0:
         __calculator_queue = []
         calc_string.set('0')
+        return True
+    return False
 
 
 # This will only update the display directly and not evaluate any expressions, assuming the parser function calculator_command() has done its job.
@@ -179,19 +180,18 @@ def evaluate_expression():
         left_operand, operator, right_operand = int(__calculator_queue.pop(0)), __calculator_queue.pop(0), int(__calculator_queue.pop(0))
         print(str(left_operand) + ' ' + operator + ' ' + str(right_operand))
         if (not left_operand > maxsize or not left_operand < -maxsize) and (not right_operand > maxsize or not right_operand < -maxsize):
+            result = ''
             if operator == '+':
                 result = str(add(left_operand, right_operand))
-                __calculator_queue.append(result)
             elif operator == '-':
                 result = str(sub(left_operand, right_operand))
-                __calculator_queue.append(result)
             elif operator == '/':
                 result = str(divide(left_operand, right_operand))
-                __calculator_queue.append(result)
             elif operator == '*':
                 result = str(multiply(left_operand, right_operand))
-                __calculator_queue.append(result)
+            __calculator_queue.append(result)
             print(__calculator_queue)
+            calc_string.set(__calculator_queue[0])
             return True
     return False
 
@@ -206,7 +206,7 @@ def calculator_command(cmd=''):
         return True
     elif cmd == '=':
         evaluate_expression()
-        update_calculator_display(calculator_display, __calculator_queue[0])
+        # update_calculator_display(calculator_display, __calculator_queue[0])
         return True
     print('command ' + cmd + ' not recognized')
     return False
