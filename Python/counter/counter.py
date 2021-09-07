@@ -194,46 +194,61 @@ def update_calculator_display(calc_display=None, char=''):
     return False
 
 
-def evaluate_expression():
-    global __calculator_queue, __current_num_string
-    __calculator_queue.append(__current_num_string)
-    __current_num_string = ''
-    print('evaluate_expression: ' + str(__calculator_queue))
-    if len(__calculator_queue) > 2:
-        # TODO: Allow evaluation of expressions with more than two operands (Ex: 2 + 2 + 2)
-        left_operand, operator, right_operand = int(__calculator_queue.pop(0)), __calculator_queue.pop(0), int(__calculator_queue.pop(0))
+def evaluate_expression(exp):
+    if len(exp) >= 3:
+        left_operand, operator, right_operand = float(exp.pop(0)), exp.pop(0), float(exp.pop(0))
         print(str(left_operand) + ' ' + operator + ' ' + str(right_operand))
-        if (not left_operand > maxsize or not left_operand < -maxsize) and (not right_operand > maxsize or not right_operand < -maxsize):
-            result = ''
-            if operator == '+':
-                result = str(add(left_operand, right_operand))
-            elif operator == '-':
-                result = str(sub(left_operand, right_operand))
-            elif operator == '/':
-                result = str(div(left_operand, right_operand))
-            elif operator == '*':
-                result = str(mul(left_operand, right_operand))
-            __calculator_queue.insert(0, result)
-            print(__calculator_queue)
-            calc_string.set(__calculator_queue[0])
-            return True
-    return False
+        if operator == '+':
+            result = add(left_operand, right_operand)
+        elif operator == '-':
+            result = sub(left_operand, right_operand)
+        elif operator == '*':
+            result = mul(left_operand, right_operand)
+        elif operator == '/':
+            result = div(left_operand, right_operand)
+        result = str(result)
+        exp.insert(0, result)
+        return evaluate_expression(exp)
+    return exp[0]
 
 
-def calculator_command(cmd=''):
-    print(cmd)
-    if cmd.isnumeric() or cmd == 'C' or cmd == '.' or cmd == '/' or cmd == '*' or cmd == '-' or cmd == '+':
-        update_calculator_display(calculator_display, cmd)
+def calculator_command(char=''):
+    print(char)
+    global __calculator_queue, __current_num_string
+    if char.isnumeric() or char == 'C' or char == '.' or char == '/' or char == '*' or char == '-' or char == '+':
+        update_calculator_display(calculator_display, char)
         return True
-    elif cmd == '+/-' or cmd == '%':
-        # TODO: this
+    elif (char == '+/-' or char == '%') and __current_num_string.isnumeric():
+        # TODO: Change int values to floats
+        if char == '+/-':
+            result = float(__current_num_string) * -1.0
+            result = str(result)
+            print('+/- result: ' + result)
+            if len(__calculator_queue) > 0:
+                __calculator_queue.pop()
+            __calculator_queue.append(result)
+            calc_string.set(result)
+        else:
+            result = float(__current_num_string)
+            result *= .01
+            result = str(result)
+            print('% result: ' + result)
+            if len(__calculator_queue) > 0:
+                __calculator_queue.pop()
+            __calculator_queue.append(result)
+            calc_string.set(result)
         return True
-    elif cmd == '=':
-        evaluate_expression()
-        # update_calculator_display(calculator_display, __calculator_queue[0])
+    elif char == '=':
+        __calculator_queue.append(__current_num_string)
+        result = str(evaluate_expression(__calculator_queue))
+        __current_num_string = result
+        __calculator_queue.clear()
+        clear_calculator_display(calculator_display)
+        calc_string.set(result)
         return True
-    print('command ' + cmd + ' not recognized')
-    return False
+    else:
+        print('command ' + char + ' not recognized')
+        return False
 
 
 #
