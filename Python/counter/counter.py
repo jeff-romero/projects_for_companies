@@ -15,7 +15,7 @@ __current_count = 0
 __labels = [] # Will hold recipes
 __ADD_COLOR = '#81d41a'
 __SUB_COLOR = '#ff0000'
-__MAX_VAL = 100 # Maximum value to add/subtract
+__MAX_VAL = 999 # Maximum value to add/subtract
 __SCREEN_WIDTH = 1200
 __SCREEN_HEIGHT = 600
 
@@ -30,6 +30,8 @@ main_buttons_frame.pack(side=tk.LEFT, fill='both')
 recipes_frame = tk.Frame(root, bg='grey')
 recipes_frame.pack(side=tk.RIGHT, fill='both', expand=True)
 
+# TODO: Put functions in their own modules, then import those modules
+
 
 def inc(label=None, num_to_inc=1):
     if num_to_inc <= __MAX_VAL:
@@ -41,10 +43,10 @@ def inc(label=None, num_to_inc=1):
         print('Chosen value too large! (Required: value <= ' + str(__MAX_VAL) + ')')
 
 
-def dec(label=None, num_to_dec=1):
-    if num_to_dec <= __MAX_VAL:
+def dec(label=None, num=1):
+    if num <= __MAX_VAL:
         global __current_count
-        __current_count -= num_to_dec
+        __current_count -= num
         display = str(__current_count)
         label.config(text=display)
     else:
@@ -114,27 +116,28 @@ if not exists(data_file):
 load_data_file(data_file)
 
 
-count_label = tk.Label(main_buttons_frame, text=__current_count, height=3, bg='black', fg='white', justify=tk.CENTER, font=75)
-count_label.pack(fill='x', expand=True, pady=(0,5))
-
-
 __calculator_queue = []
 __current_num_string = ''
 
+count_label = tk.Label(main_buttons_frame, text=__current_count, height=3, bg='black', fg='white', justify=tk.CENTER, font=75)
+count_label.pack(fill='x', expand=True)
+reset_count_label = tk.Button(main_buttons_frame, text='RESET COUNTER', bg='red', fg='black', command=lambda:reset(count_label))
+reset_count_label.pack(pady=(0,5))
 
-def add(x=0, y=0):
+
+def add(x, y):
     return x + y
 
 
-def sub(x=0, y=0):
+def sub(x, y):
     return x - y
 
 
-def multiply(x=0, y=0):
+def mul(x, y):
     return x * y
 
 
-def divide(x=1, y=1):
+def div(x, y):
     return x / y
 
 
@@ -158,25 +161,46 @@ def clear_calculator_display(display=None):
 # This will only update the display directly and not evaluate any expressions, assuming the parser function calculator_command() has done its job.
 def update_calculator_display(calc_display=None, char=''):
     if calc_display:
+        global __current_num_string
         curr_display = calc_string.get()
         if char == 'C':
             clear_calculator_display(calc_display)
             return True
-        elif curr_display == '0' and char != '.': # Avoids unnecessary zero padding such as 01, 02, ..., 09999
-            curr_display = char
-        elif (not curr_display.__contains__('.') and char == '.') or char != '.':
-            curr_display += char
-        # TODO: Make use of __current_num_string
+        elif curr_display == '0' and char != '.' and char.isnumeric(): # Avoids unnecessary zero padding such as 01, 02, ..., 09999
+            calc_string.set(char)
+            __current_num_string = char
+            return True
+        else:
+            if char.isnumeric():
+                __current_num_string += char
+                curr_display += char
+                print('update_calculator_display: calculator queue -> ' + str(__calculator_queue))
+                calc_string.set(curr_display)
+                return True
+                # print('update_calculator_display: current num string -> ' + str(__current_num_string))
+            elif (not curr_display.__contains__('.') and char == '.') or char != '.': # Operator (-, +, /, *)
+                if len(__current_num_string) > 0:
+                    __calculator_queue.append(__current_num_string)
+                __current_num_string = ''
+                curr_display += char
+                print(curr_display)
+            print('update_calculator_display: current num string -> ' + str(__current_num_string))
+        
         __calculator_queue.append(char)
-        print(__calculator_queue)
+            # __calculator_queue.append(__calculator_queue.pop(__calculator_queue.index(__current_num_string)) + char)
+        print('update_calculator_display: calculator queue -> ' + str(__calculator_queue))
         calc_string.set(curr_display)
         return True
     return False
 
 
 def evaluate_expression():
-    global __calculator_queue
+    global __calculator_queue, __current_num_string
+    __calculator_queue.append(__current_num_string)
+    __current_num_string = ''
+    print('evaluate_expression: ' + str(__calculator_queue))
     if len(__calculator_queue) > 2:
+        # TODO: Allow evaluation of expressions with more than two operands (Ex: 2 + 2 + 2)
         left_operand, operator, right_operand = int(__calculator_queue.pop(0)), __calculator_queue.pop(0), int(__calculator_queue.pop(0))
         print(str(left_operand) + ' ' + operator + ' ' + str(right_operand))
         if (not left_operand > maxsize or not left_operand < -maxsize) and (not right_operand > maxsize or not right_operand < -maxsize):
@@ -186,10 +210,10 @@ def evaluate_expression():
             elif operator == '-':
                 result = str(sub(left_operand, right_operand))
             elif operator == '/':
-                result = str(divide(left_operand, right_operand))
+                result = str(div(left_operand, right_operand))
             elif operator == '*':
-                result = str(multiply(left_operand, right_operand))
-            __calculator_queue.append(result)
+                result = str(mul(left_operand, right_operand))
+            __calculator_queue.insert(0, result)
             print(__calculator_queue)
             calc_string.set(__calculator_queue[0])
             return True
