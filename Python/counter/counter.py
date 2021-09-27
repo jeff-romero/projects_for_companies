@@ -116,9 +116,6 @@ if not exists(data_file):
 load_data_file(data_file)
 
 
-__calculator_queue = []
-__current_num_string = ''
-
 count_label = tk.Label(main_buttons_frame, text=__current_count, height=3, bg='black', fg='white', justify=tk.CENTER, font=75)
 count_label.pack(fill='x', expand=True)
 reset_count_label = tk.Button(main_buttons_frame, text='RESET COUNTER', bg='red', fg='black', command=lambda:reset(count_label))
@@ -141,6 +138,14 @@ def div(x, y):
     return x / y
 
 
+def isfloat(x):
+    try:
+        float(x)
+        return True
+    except:
+        return False
+
+
 calculator_frame = tk.Frame(main_buttons_frame, bg='grey')
 calculator_frame.pack()
 calc_string = tk.StringVar()
@@ -148,11 +153,16 @@ calculator_display = tk.Label(calculator_frame, textvariable=calc_string, bg='bl
 calc_string.set('0')
 calculator_display.grid(row=0, column=0, columnspan=4)
 
+__expression = []
+__currentnum = calc_string.get()
+__calculator_commands = ['+', '-', '*', '/', '=', '.', 'C', '+/-', '%']
+
 
 def clear_calculator_display(display=None):
-    global __calculator_queue
-    if display and len(__calculator_queue) > 0:
-        __calculator_queue = []
+    global __expression, __currentnum
+    if display:
+        __expression = []
+        __currentnum = ''
         calc_string.set('0')
         return True
     return False
@@ -161,40 +171,56 @@ def clear_calculator_display(display=None):
 # This will only update the display directly and not evaluate any expressions, assuming the parser function calculator_command() has done its job.
 def update_calculator_display(calc_display=None, char=''):
     if calc_display:
-        global __current_num_string
+        global __currentnum
         curr_display = calc_string.get()
-        if char == 'C':
-            clear_calculator_display(calc_display)
-            return True
-        elif curr_display == '0' and char != '.' and char.isnumeric(): # Avoids unnecessary zero padding such as 01, 02, ..., 09999
-            calc_string.set(char)
-            __current_num_string = char
-            return True
-        else:
-            if char.isnumeric():
-                __current_num_string += char
+        if isfloat(char):
+            print('update_calculator_display(): char ' + str(char) + ' is a float')
+            if curr_display == '0': # Avoids unnecessary zero padding such as 01, 02, ..., 09999
+                calc_string.set(char)
+                __currentnum = char
+            else:
                 curr_display += char
-                print('update_calculator_display: calculator queue -> ' + str(__calculator_queue))
+                __currentnum += char
                 calc_string.set(curr_display)
-                return True
-                # print('update_calculator_display: current num string -> ' + str(__current_num_string))
-            elif (not curr_display.__contains__('.') and char == '.') or char != '.': # Operator (-, +, /, *)
-                if len(__current_num_string) > 0:
-                    __calculator_queue.append(__current_num_string)
-                __current_num_string = ''
-                curr_display += char
-                print(curr_display)
-            print('update_calculator_display: current num string -> ' + str(__current_num_string))
-        
-        __calculator_queue.append(char)
-            # __calculator_queue.append(__calculator_queue.pop(__calculator_queue.index(__current_num_string)) + char)
-        print('update_calculator_display: calculator queue -> ' + str(__calculator_queue))
-        calc_string.set(curr_display)
+            return True
+        else: # Can be . or an operator (-, +, /, *)
+            if char == '.':
+                print('update_calculator_display(): char ' + str(char) + ' is .' + '\nupdate_calculator_display(): currentnum is ' + str(__currentnum))
+                if len(__expression) > 0:
+                    print('update_calculator_display(): ' + str(__expression[len(__expression) - 1]))
+
+                if len(__currentnum) > 0 and not __currentnum.__contains__('.'):
+                    __currentnum += char
+                elif __expression[len(__expression) - 1].__contains__('.'):
+                    newcurrentnum = __expression.pop(len(__expression) - 1)
+                    print('update_calculator_display(): removed ' + str(newcurrentnum) + ' from the expression')
+                    if newcurrentnum.__contains__('.0'): # Cut ".0" from the end of the result if present
+                        newcurrentnum = newcurrentnum.split('.')[0]
+                    newcurrentnum += '.' # I should fix this, doesn't look right
+                    print('update_calculator_display(): new current num is ' + str(newcurrentnum))
+                    __currentnum = newcurrentnum
+                else:
+                    # Number cannot have more than one decimal (Ex: 1.2.3.4.5 OR ...1.2.3)
+                    return False
+            elif char == '-' or char == '+' or char == '/' or char == '/' or char == '*':
+                print('update_calculator_display(): char ' + str(char) + ' is an operator')
+                # Since char is an operand, it can't be appended to the current number string, so add the current number string to the calculator queue and empty it.
+                if len(__currentnum) > 0:
+                    __expression.append(__currentnum)
+                __currentnum = ''
+                __expression.append(char)
+            else:
+                print('update_calculator_display(): char ' + str(char) + ' not recognized')
+                return False
+            curr_display += char
+            calc_string.set(curr_display)
+        print('update_calculator_display(): current num -> ' + str(__currentnum) + '\nupdate_calculator_display(): Expression now looks like -> ' + str(__expression))
         return True
     return False
 
 
 def evaluate_expression(exp):
+    print('evaluate_expression(): ' + str(exp))
     if len(exp) >= 3:
         left_operand, operator, right_operand = float(exp.pop(0)), exp.pop(0), float(exp.pop(0))
         print(str(left_operand) + ' ' + operator + ' ' + str(right_operand))
@@ -214,40 +240,54 @@ def evaluate_expression(exp):
 
 def calculator_command(char=''):
     print(char)
-    global __calculator_queue, __current_num_string
-    if char.isnumeric() or char == 'C' or char == '.' or char == '/' or char == '*' or char == '-' or char == '+':
+    global __expression, __currentnum
+    if char == 'C':
+        clear_calculator_display(calculator_display)
+    elif char.isnumeric() or char == '.' or char == '/' or char == '*' or char == '-' or char == '+':
+        print('calculator_command(): Entering update calc display')
         update_calculator_display(calculator_display, char)
         return True
-    elif (char == '+/-' or char == '%') and __current_num_string.isnumeric():
-        # TODO: Change int values to floats
+    elif (char == '+/-' or char == '%') and isfloat(__currentnum):
+        result = 0.0
+
         if char == '+/-':
-            result = float(__current_num_string) * -1.0
-            result = str(result)
-            print('+/- result: ' + result)
-            if len(__calculator_queue) > 0:
-                __calculator_queue.pop()
-            __calculator_queue.append(result)
-            calc_string.set(result)
-        else:
-            result = float(__current_num_string)
-            result *= .01
-            result = str(result)
-            print('% result: ' + result)
-            if len(__calculator_queue) > 0:
-                __calculator_queue.pop()
-            __calculator_queue.append(result)
-            calc_string.set(result)
+            if __currentnum.__contains__('.'):
+                result = float(__currentnum) * -1.0
+            else:
+                result = int(__currentnum) * -1
+        elif char == '%':
+            result = float(__currentnum) * .01
+
+        result = str(result)
+
+        display = ''
+        for i in __expression: # Number may not be the first in the expression, so clear display then set as entire expression
+            display += i
+        display += result
+        calc_string.set(display)
+
+        __currentnum = result
+        print('calculator_command(): Expression after evaluation -> ' + str(__expression))
         return True
     elif char == '=':
-        __calculator_queue.append(__current_num_string)
-        result = str(evaluate_expression(__calculator_queue))
-        __current_num_string = result
-        __calculator_queue.clear()
-        clear_calculator_display(calculator_display)
-        calc_string.set(result)
-        return True
+        print('calculator_command(): Going to evaluate the expression (=): ' + str(__expression))
+        if calc_string.get() != '0' and len(__expression) >= 2 and len(__currentnum) > 0:
+            print('calculator_command(): Appending ' + __currentnum + ' to the expression')
+            __expression.append(__currentnum) # Append the operand after the operator (Example: Expression looks like this after this line is executed: ['1', '+', '2'])
+            print('calculator_command(): Expression now looks like -> ' + str(__expression))
+
+            result = str(evaluate_expression(__expression))
+
+            if __currentnum != result:
+                if result.__contains__('.0'): # Cut ".0" from the end of the result if present
+                    result = result.split('.0')[0]
+                print('calculator_command(): Evaluation result -> ' + result + ' ... Expression now looks like -> ' + str(__expression) + '\n\n')
+                __currentnum = ''
+                calc_string.set(result)
+            return True
+        return False
     else:
-        print('command ' + char + ' not recognized')
+        print('calculator_command(): Command ' + char + ' not recognized')
         return False
 
 
